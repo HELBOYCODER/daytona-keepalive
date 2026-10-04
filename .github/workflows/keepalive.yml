@@ -1,0 +1,16 @@
+name: daytona-keepalive
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6h (well within 24h expiry)
+  workflow_dispatch:
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node keepalive.js
+        env:
+          DTN_KEY: ${{ secrets.DTN_KEY }}
